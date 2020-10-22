@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BDA3F58E-1D67-4C65-AF90-666A3D59581B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{66D8301D-AEDD-4929-91E6-A18D0BAC3F33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poc.Puc.SGM.SupportCitizens", "src\Services\Poc.Puc.SGM.SupportCitizens\Poc.Puc.SGM.SupportCitizens.csproj", "{2F637FB0-17B7-46FA-9737-2443FCD32020}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F637FB0-17B7-46FA-9737-2443FCD32020}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F637FB0-17B7-46FA-9737-2443FCD32020}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F637FB0-17B7-46FA-9737-2443FCD32020}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F637FB0-17B7-46FA-9737-2443FCD32020}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{66D8301D-AEDD-4929-91E6-A18D0BAC3F33} = {BDA3F58E-1D67-4C65-AF90-666A3D59581B}
+		{2F637FB0-17B7-46FA-9737-2443FCD32020} = {66D8301D-AEDD-4929-91E6-A18D0BAC3F33}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C22C73B7-B242-415E-92B8-3C171C0C1B9B}
+	EndGlobalSection
+EndGlobal
