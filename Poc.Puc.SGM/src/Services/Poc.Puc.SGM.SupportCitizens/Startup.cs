@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace Poc.Puc.SGM.SupportCitizens
 {
@@ -25,6 +26,16 @@ namespace Poc.Puc.SGM.SupportCitizens
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerGeneratorOptions.IgnoreObsoleteActions = true;
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Citizen API V1",
+                });
+            });
+
             services.AddControllers();
         }
 
@@ -35,6 +46,12 @@ namespace Poc.Puc.SGM.SupportCitizens
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Citizen API V1");
+            });
 
             app.UseHttpsRedirection();
 
@@ -46,6 +63,8 @@ namespace Poc.Puc.SGM.SupportCitizens
             {
                 endpoints.MapControllers();
             });
+
+            
         }
     }
 }

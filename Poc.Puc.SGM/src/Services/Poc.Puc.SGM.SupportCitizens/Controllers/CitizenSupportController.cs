@@ -7,7 +7,7 @@ namespace Poc.Puc.SGM.SupportCitizens.Controllers
     [ApiController]
     public class CitizenSupportController : ControllerBase
     {   
-        [Route("{identifier}")]
+        [HttpGet("{identifier}")]
         public IActionResult GetByIdentifier([FromRoute] string identifier)
         {
             var service = new STURService();
