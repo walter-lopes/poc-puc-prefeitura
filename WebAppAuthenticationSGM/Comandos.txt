@@ -1,0 +1,6 @@
+#cria o projeto
+dotnet new webapi -o WebAppAuthenticationSGM
+
+#pacote de autenticação
+dotnet add package Microsoft.AspNetCore.Authentication
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
