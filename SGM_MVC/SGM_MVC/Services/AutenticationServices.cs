@@ -12,7 +12,7 @@ namespace SGM_MVC.Services
 {
     public class AutenticationServices
     {
-        public async Task<bool> Autenticar(String login, String senha)
+        public async Task<HttpResponseMessage> Autenticar(String login, String senha)
         {
             HttpClient client = new HttpClient();
 
@@ -31,18 +31,7 @@ namespace SGM_MVC.Services
             contentString.Headers.ContentType = new
             MediaTypeHeaderValue("application/json");
 
-            try
-            {
-                HttpResponseMessage response = await client.PostAsync("login", contentString);
-                return response.IsSuccessStatusCode;
-            }
-            catch (Exception e)
-            {
-
-                return false;
-            }
-
-            
+            return await client.PostAsync("login", contentString);                    
         }
     }
 }

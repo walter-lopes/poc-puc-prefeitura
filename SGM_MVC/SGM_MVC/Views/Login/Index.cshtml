@@ -1,4 +1,5 @@
-﻿@{
+﻿@model SGM_MVC.Models.Authentication.User
+@{
     ViewData["Title"] = "Login";
 }
 
@@ -15,18 +16,32 @@
         <div class="row">
             <div class="col-4"></div>
             <div class="col-4 p-3 my-3 border">
-                <form method="post" action="Login/Autenticar" class="was-validated">
+                <form method="post" asp-action="Autenticar" class="was-validated">
                     <div class="form-group">
                         <label for="uname">Usuário:</label>
-                        <input type="text" class="form-control" id="uname" placeholder="Entre com usuário" name="login" required>
+                        <input type="text" class="form-control" id="idLogin" placeholder="Entre com usuário" name="login" required>
                         <div class="valid-feedback">Ok.</div>
                         <div class="invalid-feedback">Campo obrigatório.</div>
                     </div>
                     <div class="form-group">
                         <label for="pwd">Senha:</label>
-                        <input type="password" class="form-control" id="pwd" placeholder="Entre com a senha" name="password" required>
+                        <input type="password" class="form-control" id="idPwd" placeholder="Entre com a senha" name="password" required>
                         <div class="valid-feedback">Ok.</div>
                         <div class="invalid-feedback">Campo obrigatório.</div>
+                    </div>
+                    <div>
+                        @if (null != @ViewData["MessageError"])
+                        {
+                            <p>
+                                <strong>Erro: @ViewData["MessageError"]</strong>
+                            </p>
+                        }
+                        @if (@ViewData["MessageError"] is null && Model.Id is null)
+                        {
+                            <p>
+                                <strong>Usúario ou senha invalidos:</strong>
+                            </p>
+                        }
                     </div>
 
                     <button type="submit" class="btn btn-primary">Login</button>

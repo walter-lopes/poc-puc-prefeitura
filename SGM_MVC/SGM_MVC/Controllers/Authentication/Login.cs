@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SGM_MVC.Models.Authentication;
 using SGM_MVC.Services;
 
 namespace SGM_MVC.Controllers.Authentication
@@ -11,15 +13,26 @@ namespace SGM_MVC.Controllers.Authentication
     {
         public IActionResult Index()
         {
-            return View();
+            User user = new User();
+            user.Id = "";
+            return View(user);
         }
 
         [HttpPost]
         public async Task<IActionResult> AutenticarAsync(String login, String password)
         {
             AutenticationServices aut = new AutenticationServices();
-
-            return await aut.Autenticar(login, password) ? View("Autenticado") : View();
+            
+            try
+            {
+                HttpResponseMessage responseMessage = await aut.Autenticar(login, password);
+                return responseMessage.IsSuccessStatusCode ? View("Autenticado") : View();
+            }
+            catch (Exception e)
+            {
+                ViewData["MessageError"] = e.Message;
+                return View("Index",new User());
+            }
         }
     }
 }
