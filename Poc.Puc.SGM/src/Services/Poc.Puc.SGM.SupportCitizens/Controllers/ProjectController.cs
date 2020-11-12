@@ -12,9 +12,9 @@ namespace Poc.Puc.SGM.SupportCitizens.Controllers
     {
         private readonly ProjectRepository repository;
 
-        public ProjectController()
+        public ProjectController(IDbContext dbContext)
         {
-            var repository = new ProjectRepository();
+            repository = new ProjectRepository(dbContext, "Project");
         }
 
         [HttpPost]
@@ -26,8 +26,12 @@ namespace Poc.Puc.SGM.SupportCitizens.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromRoute] Guid id, [FromBody] Project project)
+        public async Task<IActionResult> Put([FromRoute] Guid id, ChangeStatusRequest request)
         {
+            var project = await repository.GetByIdAsync(x => x.Id == id);
+
+            project.ChangeStatus(request.EmployeeEmail, request.Status);
+
             await repository.UpdateAsync(project, x=> x.Id == id);
 
             return Ok();
@@ -36,7 +40,7 @@ namespace Poc.Puc.SGM.SupportCitizens.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var projects = await repository.GetAllAsync():
+            var projects = await repository.GetAllAsync();
             return Ok(projects);
         }
 
@@ -46,5 +50,12 @@ namespace Poc.Puc.SGM.SupportCitizens.Controllers
             var project = await repository.GetByIdAsync(x => x.Id == id);
             return Ok(project);
         }
+    }
+
+    public class ChangeStatusRequest
+    {
+        public string EmployeeEmail { get; set; }
+
+        public string Status { get; set; }
     }
 }

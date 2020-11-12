@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Poc.Puc.SGM.SupportCitizens.Repositories;
 
 namespace Poc.Puc.SGM.SupportCitizens
 {
@@ -26,6 +27,15 @@ namespace Poc.Puc.SGM.SupportCitizens
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IDbContext>(sp =>
+            {
+                return new MongoContext()
+                {
+                    ConnectionString = Configuration.GetSection("Mongo:ConnectionString").Value,
+                    DataBase = Configuration.GetSection("Mongo:DataBase").Value
+                };
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerGeneratorOptions.IgnoreObsoleteActions = true;

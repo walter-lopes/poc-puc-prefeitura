@@ -12,5 +12,7 @@ namespace Poc.Puc.SGM.SupportCitizens.Domain
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public string Email { get; set; }
     }
 }
