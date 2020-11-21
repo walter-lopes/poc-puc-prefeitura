@@ -7,7 +7,8 @@ namespace Poc.Puc.SGM.SupportCitizens.Domain
 {
     public class Project
     {
-        public Guid Id { get; set; }
+
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         public string Name { get; set; }
 
@@ -19,9 +20,9 @@ namespace Poc.Puc.SGM.SupportCitizens.Domain
 
         public IList<History> Histories { get; set; }
 
-        public DateTime CreateDate { get; set; }
+        public DateTime CreateDate { get; set; } = DateTime.Now;
 
-        public DateTime UpdateDate { get; set; }
+        public DateTime UpdateDate { get; set; } = DateTime.Now;
 
         public void ChangeStatus(string employee, string status)
         {
