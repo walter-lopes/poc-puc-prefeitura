@@ -1,0 +1,65 @@
+﻿@model SGM_MVC.Models.Cidadao.Servico.Protocolo
+
+@{
+    ViewData["Title"] = "Pesquisa de Serviços";
+}
+
+    <h3>Pesquisa de Serviços</h3>
+    <div>
+        <h4>Informações do Protocolo</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Nome)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Nome)
+            </dd>
+            <dt class="col-sm-2">
+                Data de Registro
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DataDeRegistro)
+            </dd>           
+        </dl>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Situacao
+                </th>
+                <th>
+                    Data
+                </th>
+                <th>
+                   Responsável
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model.HistoricoStatus) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Situacao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Responsavel)
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+    <div>
+        <a asp-action="Servico">Voltar</a>
+    </div>

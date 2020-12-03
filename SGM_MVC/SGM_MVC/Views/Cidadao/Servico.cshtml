@@ -1,12 +1,12 @@
 ﻿@{
-    ViewData["Title"] = "IPTU / ITR";
+    ViewData["Title"] = "Consulta Protocolos";
 }
 
 <header>
     <div class="container" style="height: 80px;">
         <div class="row">
             <div class="col-12">
-                <h3>Consulta IPTU / ITR</h3>
+                <h3>Consulta Protocolos de Serviço</h3>
             </div>
         </div>
     </div>
@@ -16,15 +16,15 @@
     <div class="container" style="height:auto">
         <div class="row">
             <div class="col-12">
-                <form asp-action="PesquisaIptuItr" method="post">
-                    <label>CPF / CNPJ:</label>
-                    <input type="text" maxlength="14" id="cpfcnpj" placeholder="" name="CpfCnpj" required inputmode="numeric" pattern="[0-9]*" />
+                <form asp-action="PesquisaServico" method="post">
+                    <label>Número do protocolo:</label>
+                    <input type="text" maxlength="14" id="cpfcnpj" placeholder="" name="ProtocoloIdServico" required inputmode="numeric" pattern="[0-9]*" />
                     <button class="btn-sm btn-outline-primary">Pesquisar</button>
                 </form>
             </div>
         </div>
     </div>
-    <div>
-        <a asp-action="Index">Voltar</a>
-    </div>
 </content>
+<div>
+    <a asp-action="Index">Voltar</a>
+</div>
