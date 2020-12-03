@@ -42,5 +42,66 @@ namespace Poc.Puc.SGM.GeneralIntegration.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put([FromRoute] Guid id, ChangeStatusRequest request)
+        {
+            var json = new StringContent(
+                                JsonConvert.SerializeObject(request),
+                                Encoding.UTF8,
+                                "application/json");
+
+            var client = _clientFactory.CreateClient();
+            var response = await client.PutAsync($"https://localhost:44363/project/{id}", json);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var client = _clientFactory.CreateClient();
+            var response = await client.GetAsync($"https://localhost:44363/project");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(response.Content);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get([FromRoute] Guid id)
+        {
+            var client = _clientFactory.CreateClient();
+            var response = await client.GetAsync($"https://localhost:44363/project/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok(response.Content);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+    }
+
+
+    public class ChangeStatusRequest
+    {
+        public string EmployeeEmail { get; set; }
+
+        public string Status { get; set; }
     }
 }
