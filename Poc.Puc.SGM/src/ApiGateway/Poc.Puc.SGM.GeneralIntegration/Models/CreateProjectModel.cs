@@ -8,6 +8,8 @@
 
         public string Status { get; set; }
 
-        public string Responsible { get; set; }
+        public string RequesterName { get; set; }
+        public string RequesterEmail { get; set; }
+        public string RequesterPhone { get; set; }
     }
 }
