@@ -13,5 +13,9 @@
         public string Zone { get; set; }
 
         public decimal Fee { get; set; }
+
+        public string Kind { get; set; }
+
+        public string KindOfFee { get; set; }
     }
 }

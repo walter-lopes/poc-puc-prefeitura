@@ -16,24 +16,24 @@ namespace Poc.Puc.SGM.SupportCitizens.Domain
 
         public string Status { get; set; }
 
-        public string Responsible { get; set; }
+        public string RequesterName { get; set; }
+        public string RequesterEmail { get; set; }
+        public string RequesterPhone { get; set; }
 
         public IList<History> Histories { get; set; }
 
-        public DateTime CreateDate { get; set; } = DateTime.Now;
+        public DateTime Date { get; set; } = DateTime.Now;
 
         public DateTime UpdateDate { get; set; } = DateTime.Now;
 
         public void ChangeStatus(string employee, string status)
         {
-            Responsible = employee;
-
             if (Histories is null)
             {
                 Histories = new List<History>();
             }
 
-            var history = new History() { EmployeeMail = Responsible, Status = status, UpdateDate = DateTime.Now };
+            var history = new History() { Employee = employee, Status = status, UpdateDate = DateTime.Now };
 
             Histories.Add(history);
         }
@@ -41,7 +41,7 @@ namespace Poc.Puc.SGM.SupportCitizens.Domain
 
     public class History
     {
-        public string EmployeeMail { get; set; }
+        public string Employee { get; set; }
 
         public DateTime UpdateDate { get; set; }
 
