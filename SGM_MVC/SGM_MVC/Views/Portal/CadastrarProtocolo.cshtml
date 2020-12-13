@@ -1,0 +1,81 @@
+﻿@model SGM_MVC.Models.Servico.Protocol
+
+@{
+    ViewData["Title"] = "Cadastrar Protocolo";
+}
+
+<h3>Novo Protocolo</h3>
+<hr />
+@{    
+    @if (ViewBag.ReturnMessage != null)
+    {
+
+        <script type="text/javascript">
+
+        window.onload = function () {
+            alert("@ViewBag.ReturnMessage");
+        };
+        </script>
+
+    }
+}
+<div class="row">
+    <div class="col-md-4">
+
+        <form asp-action="InserirProtocolo" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Solicitação</label>
+                <input asp-for="Name" class="form-control" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreateDate" class="control-label">Data de Registro</label>
+                <input asp-for="CreateDate" class="form-control" required>
+                <span asp-validation-for="CreateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.Name" class="control-label">Requisitante</label>
+                <input asp-for="Person.Name" class="form-control" required>
+                <span asp-validation-for="Person.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.Identifier" class="control-label">CPF / CNPJ</label>
+                <input asp-for="Person.Identifier" class="form-control" required>
+                <span asp-validation-for="Person.Identifier" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.Contact.Email" class="control-label"></label>
+                <input asp-for="Person.Contact.Email" class="form-control" required>
+                <span asp-validation-for="Person.Contact.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.Contact.Phone" class="control-label">Telefone</label>
+                <input asp-for="Person.Contact.Phone" class="form-control" required>
+                <span asp-validation-for="Person.Contact.Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <a asp-action="PesquisaProtocolo" class="btn btn-primary">Voltar</a>
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@*modal*@
+<div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModalLabel"
+     aria-hidden="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="aModalLabel">Warning</h4>
+            </div>
+            <div class="modal-body">
+                Old Password, New Password, or repeat Password is empty.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

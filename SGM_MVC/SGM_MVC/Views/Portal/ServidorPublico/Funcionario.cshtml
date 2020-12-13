@@ -1,0 +1,83 @@
+﻿@model SGM_MVC.Models.Servidor.Funcionario
+@{
+    ViewData["Title"] = "Manutenção de Funcionário";
+}
+
+
+<header>
+    <div class="container" style="height: 80px;">
+        <div class="row">
+            <div class="col-12">
+                <h3>Funcionário</h3>
+            </div>
+        </div>
+    </div>
+</header>
+
+<content>
+    <div class="container" style="height:auto">
+        <div class="row">
+            <div class="col-12">
+                <form asp-action="PesquisaFuncionario" method="post">
+                    <label>Pesquisar Funcionário:</label>
+                    <input type="text" id="IdFuncionario" placeholder="Matrícula" name="IdFuncionario" required />
+                    <button class="btn btn-primary">Pesquisar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</content>
+<br/>
+
+<br />
+@if (null != Model.Nome)
+{
+<div class="col-12">
+    <h4>Informações do Funcionário</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt class="col-sm-2">
+            Matrícula
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-2">
+            Data de Admissão
+        </dt>
+        <dd class="col-sm-10" >
+            @Html.DisplayFor(model => model.DataDeAdmissao)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            Departamento
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Departamento.Nome)
+        </dd>
+        <dt class="col-sm-2">
+            Cargo
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Cargo)
+        </dd>
+    </dl>
+</div>
+}
+<footer>
+    <div class="col-12">
+        <a asp-action="Manutencao" asp-controller="Portal" class="btn btn-primary">Voltar</a>
+        <a asp-action="CadastrarFuncionario" class="btn btn-primary">Novo Funcionário</a>
+    </div>
+</footer>

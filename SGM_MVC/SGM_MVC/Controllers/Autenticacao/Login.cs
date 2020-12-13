@@ -15,11 +15,11 @@ namespace SGM_MVC.Controllers.Authentication
 {
     public class Login : Controller
     {
-        public User user { get; set; } = new User();
+        public User UserLog { get; set; } = new User();
         public IActionResult Index()
         {
-            user.Id = "";
-            return View(user);
+            UserLog.Id = "";
+            return View(UserLog);
         }
 
         [HttpPost]
@@ -34,10 +34,10 @@ namespace SGM_MVC.Controllers.Authentication
                 if (responseMessage.IsSuccessStatusCode)
                 {
                     var userJson = JObject.Parse(customerJsonString).SelectToken("user");
-                    user.Id = userJson.SelectToken("id").ToString();
-                    user.Login = userJson.SelectToken("login").ToString();
-                    user.Role = userJson.SelectToken("role").ToString();
-                    user.Name = userJson.SelectToken("name").ToString();
+                    UserLog.Id = userJson.SelectToken("id").ToString();
+                    UserLog.Login = userJson.SelectToken("login").ToString();
+                    UserLog.Role = userJson.SelectToken("role").ToString();
+                    UserLog.Name = userJson.SelectToken("name").ToString();
                     HttpContext.Session.SetString("token", JObject.Parse(customerJsonString).SelectToken("token").ToString());
 
                     return RedirectToAction("Index", "Portal");
@@ -47,13 +47,13 @@ namespace SGM_MVC.Controllers.Authentication
                     
                     string message = JObject.Parse(customerJsonString)["message"].ToString();
                     ViewData["MessageError"] = message;
-                    return View("Index", user);
+                    return View("Index", UserLog);
                 }
             }
             catch (Exception e)
             {
                 ViewData["MessageError"] = e.Message;
-                return View("Index", user);
+                return View("Index", UserLog);
             }
         }
     }

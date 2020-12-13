@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Consulta Protocolos";
+}
+
+<header>
+    <div class="container" style="height: 80px;">
+        <div class="row">
+            <div class="col-12">
+                <h3>Protocolos de Serviço</h3>
+            </div>
+        </div>
+    </div>
+</header>
+
+<content>
+    <div class="container" style="height:auto">
+        <div class="row">
+            <div class="col-12">
+                <form asp-action="PesquisaServico" method="post">
+                    <label>Número do protocolo:</label>
+                    <input type="text" id="ProtocoloIdServico" placeholder="" name="ProtocoloIdServico" required />
+                    <button class="btn btn-primary">Pesquisar</button>
+                    @if (null != @ViewData["MessageError"])
+                    {
+                        <p>
+                            <strong style="color:red">@ViewData["MessageError"]</strong>
+                        </p>
+                    }
+                </form>
+                <br />
+                <br />
+                <div>
+                    <a asp-action="Index" class="btn btn-primary">Voltar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</content>
