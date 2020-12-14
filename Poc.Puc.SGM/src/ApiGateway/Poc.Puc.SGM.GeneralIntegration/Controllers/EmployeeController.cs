@@ -22,7 +22,7 @@ namespace Poc.Puc.SGM.GeneralIntegration.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] EmployeeModel emp)
+        public async Task<IActionResult> Post([FromBody] Funcionario emp)
         {
             var json = new StringContent(
                                JsonConvert.SerializeObject(emp),
@@ -43,7 +43,7 @@ namespace Poc.Puc.SGM.GeneralIntegration.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromRoute] Guid id, [FromBody] EmployeeModel emp)
+        public async Task<IActionResult> Put([FromRoute] Guid id, [FromBody] Funcionario emp)
         {
             var json = new StringContent(
                                JsonConvert.SerializeObject(emp),
@@ -77,7 +77,7 @@ namespace Poc.Puc.SGM.GeneralIntegration.Controllers
             {
                 string responseString = await response.Content.ReadAsStringAsync();
 
-                return Ok(JsonConvert.DeserializeObject<EmployeeModel>(responseString));
+                return Ok(JsonConvert.DeserializeObject<Funcionario>(responseString));
             }
             else
             {

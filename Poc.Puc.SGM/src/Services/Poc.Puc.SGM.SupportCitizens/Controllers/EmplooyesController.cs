@@ -20,7 +20,7 @@ namespace Poc.Puc.SGM.SupportCitizens.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Employee emp)
+        public async Task<IActionResult> Post([FromBody] Funcionario emp)
         {
             await repository.InsertAsync(emp);
 
@@ -28,7 +28,7 @@ namespace Poc.Puc.SGM.SupportCitizens.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromRoute] Guid id,[FromBody] Employee emp)
+        public async Task<IActionResult> Put([FromRoute] Guid id,[FromBody] Funcionario emp)
         {
             await repository.UpdateAsync(emp, x => x.Id == id);
 

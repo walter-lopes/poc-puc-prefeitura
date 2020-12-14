@@ -2,7 +2,7 @@
 
 namespace Poc.Puc.SGM.SupportCitizens.Repositories
 {
-    public class EmplooyeRepository : BaseRepository<Employee>
+    public class EmplooyeRepository : BaseRepository<Funcionario>
     {
         public EmplooyeRepository(IDbContext context, string collection) : base(context, collection)
         {
