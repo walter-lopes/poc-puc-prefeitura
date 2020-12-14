@@ -14,17 +14,20 @@ namespace SGM_MVC.Services
     {
         public async Task<HttpResponseMessage> Autenticar(String login, String senha)
         {
-            HttpClient client = new HttpClient();
-
-            client.BaseAddress = new Uri("https://localhost:44359/v1/account/");
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri("https://localhost:44359/v1/account/")
+            };
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
 
-            Autenticacao parametro = new Autenticacao();
-            parametro.Login = login;
-            parametro.Password = senha;
+            Autenticacao parametro = new Autenticacao
+            {
+                Login = login,
+                Password = senha
+            };
 
             var jsonContent = JsonConvert.SerializeObject(parametro);
             var contentString = new StringContent(jsonContent, Encoding.UTF8, "application/json");

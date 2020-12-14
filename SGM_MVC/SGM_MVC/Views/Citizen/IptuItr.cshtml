@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "IPTU / ITR";
+}
+
+<header>
+    <div class="container" style="height: 80px;">
+        <div class="row">
+            <div class="col-12">
+                <h3>Consulta IPTU / ITR</h3>
+            </div>
+        </div>
+    </div>
+</header>
+
+<content>
+    <div class="container" style="height:auto">
+        <div class="row">
+            <div class="col-12">
+                <form asp-action="PesquisaIptuItr" method="post">
+                    <label>CPF / CNPJ:</label>
+                    <input type="text" id="CpfCnpj" placeholder="" name="CpfCnpj" required />
+                    <button class="btn btn-primary">Pesquisar</button>
+                </form>
+                <br />
+                <br />
+                <div>
+                    <a asp-action="Index" class="btn btn-primary">Voltar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</content>
