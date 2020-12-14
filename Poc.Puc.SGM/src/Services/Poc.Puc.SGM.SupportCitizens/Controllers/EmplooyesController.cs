@@ -16,7 +16,7 @@ namespace Poc.Puc.SGM.SupportCitizens.Controllers
 
         public EmplooyesController(IDbContext dbContext)
         {
-            var repository = new EmplooyeRepository(dbContext, "Employee");
+            repository = new EmplooyeRepository(dbContext, "Employee");
         }
 
         [HttpPost]
