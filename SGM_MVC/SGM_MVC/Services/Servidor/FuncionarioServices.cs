@@ -1,21 +1,19 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SGM_MVC.Models.Cidadao;
 using SGM_MVC.Models.Servidor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SGM_MVC.Services.Servidor
 {
     public class FuncionarioServices
     {
-
-        public string Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
 
         public Funcionario PesquisaFuncionario(string matricula){
 
@@ -33,43 +31,70 @@ namespace SGM_MVC.Services.Servidor
 
 
             Funcionario funcionario = new Funcionario();
+            funcionario.Id = matricula;
+
             if (response.IsSuccessStatusCode)
             {
-                Departamento departamento = new Departamento
-                {
-                    Nome = "Transportes",
-                    DataDeCadastro = DateTime.Now,
-                    Descricao = "Departamento Municipal de Transporte",
-                    Id = 1
-                };
+                //Departamento departamento = new Departamento
+                //{
+                //    Nome = "Transportes",
+                //    DataDeCadastro = DateTime.Now,
+                //    Descricao = "Departamento Municipal de Transporte",
+                //    Id = 1
+                //};
 
-
-                funcionario.Id = model.Id;
                 funcionario.Nome = model.Nome;
-                funcionario.Cargo = "Professor";
-                funcionario.Email = "rodrigo@bomsucesso.gov.br";
-                funcionario.DataDeAdmissao = DateTime.Parse("2010/10/11");
-                funcionario.DataNascimento = DateTime.Parse("1985/01/22");
-                funcionario.Departamento = departamento;
+                //funcionario.Cargo = "Professor";
+                //funcionario.Email = "rodrigo@bomsucesso.gov.br";
+                //funcionario.DataDeAdmissao = DateTime.Parse("2010/10/11");
+                //funcionario.DataNascimento = DateTime.Parse("1985/01/22");
+                funcionario.Cargo = model.Cargo;
+                funcionario.Email = model.Email;
+                funcionario.DataDeAdmissao = model.DataDeAdmissao;
+                funcionario.DataNascimento = model.DataNascimento;
+                funcionario.Departamento = model.Departamento;
 
             }
             return funcionario;
         }
 
-        public string InserirFuncionario(Funcionario func)
+        [HttpPost]
+        public string Create(Funcionario func)
         {
-            _ = new Funcionario
-            {
-                Id = func.Id,
-                Nome = func.Nome,
-                Cargo = func.Cargo,
-                DataDeAdmissao = func.DataDeAdmissao,
-                DataNascimento = func.DataNascimento,
-                Departamento = func.Departamento,
-                Email = func.Email
-            };
+            //_ = new Funcionario
+            //{
+            //    Id = func.Id,
+            //    Nome = func.Nome,
+            //    Cargo = func.Cargo,
+            //    DataDeAdmissao = func.DataDeAdmissao,
+            //    DataNascimento = func.DataNascimento,
+            //    Departamento = func.Departamento,
+            //    Email = func.Email
+            //};
 
-            return "";
+            var json = JsonConvert.SerializeObject(func);
+            JObject jObject = JObject.Parse(json);
+
+            jObject.Property("Id").Remove();
+            json = jObject.ToString();
+
+            var projectJson = new StringContent(
+                                json,
+                                Encoding.UTF8,
+                                "application/json");
+
+            var client = new HttpClient();
+            var response = client.PostAsync($"https://localhost:44363/employees",
+                                                  projectJson).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                return "Funcionário Cadastrado";
+            }
+            else
+            {
+                return $"Erro ao cadastrar funcionário. {response.ReasonPhrase}";
+            }
         }
     }
 }

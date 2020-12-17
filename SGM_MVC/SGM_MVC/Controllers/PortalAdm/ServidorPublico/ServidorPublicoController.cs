@@ -57,7 +57,7 @@ namespace SGM_MVC.Controllers.PortalAdm.ServidorPublico
         public IActionResult InserirFuncionario(Funcionario funcionario)
         {
             FuncionarioServices funcionarioServices = new FuncionarioServices();
-            funcionarioServices.InserirFuncionario(funcionario);
+            funcionarioServices.Create(funcionario);
             return RedirectToAction("CadastrarFuncionario", "ServidorPublico");
         }
 

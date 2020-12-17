@@ -22,6 +22,14 @@
                     <label>Pesquisar Funcionário:</label>
                     <input type="text" id="IdFuncionario" placeholder="Matrícula" name="IdFuncionario" required />
                     <button class="btn btn-primary">Pesquisar</button>
+
+                    @if (null == Model.Nome && null != Model.Id)
+                    {
+                        <p>
+                            <strong style="color:red">Matrícula @Model.Id não encontrada.</strong>
+                        </p>
+                    }
+
                 </form>
             </div>
         </div>
