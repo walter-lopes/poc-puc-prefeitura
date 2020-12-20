@@ -54,18 +54,24 @@ namespace SGM_MVC.Services.Servico
                     pessoa.Name = model.RequesterName;
                     pessoa.Contact = contato;
                 
-                    foreach (var item in model.Histories)
-                    {
-                        Histories status = new Histories
-                        {
-                            UpdateDate = item.UpdateDate,
-                            Employee = item.Employee,
-                            EmployeeMail = item.EmployeeMail,
-                            Status = item.Status
-                        };
 
-                        statuses.Add(status);
+                    if ( model.Histories != null)
+                    {
+                        foreach (var item in model.Histories)
+                        {
+                            Histories status = new Histories
+                            {
+                                UpdateDate = item.UpdateDate,
+                                Employee = item.Employee,
+                                EmployeeMail = item.EmployeeMail,
+                                Status = item.Status
+                            };
+
+                            statuses.Add(status);
+                        }
                     }
+
+                    
 
                     protocolo.CreateDate = DateTime.Parse(model.Date);
                     //protocolo.Id = model.Id;
@@ -100,12 +106,13 @@ namespace SGM_MVC.Services.Servico
                                 "application/json");
 
             var client = new HttpClient();
-            var response = client.PostAsync($"https://localhost:44363/project",
+            var response = client.PostAsync($"https://localhost:44383/project",
                                                   projectJson).Result;
 
             if (response.IsSuccessStatusCode)
             {
-                return "Protocolo Cadastrado";
+                var codigo = response.Content.ReadAsStringAsync().Result;
+                return $"Protocolo Cadastrado: Código {codigo}";
             }
             else
             {

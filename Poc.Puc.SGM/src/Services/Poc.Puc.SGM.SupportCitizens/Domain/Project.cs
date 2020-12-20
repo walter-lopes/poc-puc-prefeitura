@@ -26,6 +26,9 @@ namespace Poc.Puc.SGM.SupportCitizens.Domain
 
         public DateTime UpdateDate { get; set; } = DateTime.Now;
 
+
+        public string Codigo { get; set; }
+
         public void ChangeStatus(string employee, string status)
         {
             if (Histories is null)

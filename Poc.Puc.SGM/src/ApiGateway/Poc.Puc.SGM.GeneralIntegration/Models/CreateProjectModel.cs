@@ -2,6 +2,9 @@
 {
     public class CreateProjectModel
     {
+
+        public string Codigo { get; set; }
+
         public string Name { get; set; }
 
         public decimal Budget { get; set; }

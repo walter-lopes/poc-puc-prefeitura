@@ -63,10 +63,10 @@ namespace Poc.Puc.SGM.GeneralIntegration.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get([FromRoute] Guid id)
+        [HttpGet("{email}")]
+        public async Task<IActionResult> Get([FromRoute] string email)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:44363/employee/{id}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:44363/employee/{email}");
 
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("User-Agent", "HttpClientFactory-Sample");

@@ -35,10 +35,10 @@ namespace Poc.Puc.SGM.SupportCitizens.Controllers
             return Ok();
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get([FromRoute] Guid id)
+        [HttpGet("{email}")]
+        public async Task<IActionResult> Get([FromRoute] string email)
         {
-            var emp = await repository.GetByIdAsync(x => x.Id == id);
+            var emp = await repository.GetByIdAsync(x => x.Email == email);
 
             return Ok(emp);
         }

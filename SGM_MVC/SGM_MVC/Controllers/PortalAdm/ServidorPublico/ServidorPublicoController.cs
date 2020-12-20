@@ -44,7 +44,7 @@ namespace SGM_MVC.Controllers.PortalAdm.ServidorPublico
 
             foreach (Cargo cargo in Cargos)
             {
-                SelectListItemCargos.Add(new SelectListItem() {Text = cargo.Nome, Value = cargo.Id.ToString() });
+                SelectListItemCargos.Add(new SelectListItem() {Text = cargo.Nome, Value = cargo.Nome });
             }
 
             ViewBag.DepartamentoList = SelectListItemDepartamentos; 

@@ -35,7 +35,9 @@ namespace Poc.Puc.SGM.GeneralIntegration.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                return Ok();
+                var codigo = response.Content.ReadAsStringAsync().Result;
+
+                return Ok(codigo);
             }
             else
             {
@@ -56,6 +58,7 @@ namespace Poc.Puc.SGM.GeneralIntegration.Controllers
 
             if (response.IsSuccessStatusCode)
             {
+               
                 return Ok();
             }
             else
@@ -80,11 +83,11 @@ namespace Poc.Puc.SGM.GeneralIntegration.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get([FromRoute] Guid id)
+        [HttpGet("{codigo}")]
+        public async Task<IActionResult> Get([FromRoute] string codigo)
         {
             var client = _clientFactory.CreateClient();
-            var response = await client.GetAsync($"https://localhost:44363/project/{id}");
+            var response = await client.GetAsync($"https://localhost:44363/project/{codigo}");
 
             if (response.IsSuccessStatusCode)
             {

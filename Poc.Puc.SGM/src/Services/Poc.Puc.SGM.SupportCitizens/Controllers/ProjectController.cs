@@ -20,9 +20,12 @@ namespace Poc.Puc.SGM.SupportCitizens.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Project project)
         {
+            var rnd = new Random(DateTime.Now.Millisecond);
+            int ticks = rnd.Next(0, 3000);
+            project.Codigo = ticks.ToString();
             await repository.InsertAsync(project);
 
-            return Ok();
+            return Ok(project.Codigo);
         }
 
         [HttpPut("{id}")]
@@ -44,10 +47,10 @@ namespace Poc.Puc.SGM.SupportCitizens.Controllers
             return Ok(projects);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get([FromRoute] Guid id)
+        [HttpGet("{codigo}")]
+        public async Task<IActionResult> Get([FromRoute] string codigo)
         {
-            var project = await repository.GetByIdAsync(x => x.Id == id);
+            var project = await repository.GetByIdAsync(x => x.Codigo == codigo);
             return Ok(project);
         }
     }

@@ -17,5 +17,16 @@
         public string Kind { get; set; }
 
         public string KindOfFee { get; set; }
+
+        public Address Address { get; set; }
+    }
+
+    public class Address
+    {
+        public int Number { get; set; }
+        public string Street { get; set; }
+        public int PostalCode { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
     }
 }

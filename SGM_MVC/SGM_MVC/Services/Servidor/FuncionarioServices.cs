@@ -15,9 +15,9 @@ namespace SGM_MVC.Services.Servidor
     public class FuncionarioServices
     {
 
-        public Funcionario PesquisaFuncionario(string matricula){
+        public Funcionario PesquisaFuncionario(string email){
 
-            var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:44363/employee/{matricula}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:44363/employees/{email}");
 
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("User-Agent", "HttpClientFactory-Sample");
@@ -31,7 +31,7 @@ namespace SGM_MVC.Services.Servidor
 
 
             Funcionario funcionario = new Funcionario();
-            funcionario.Id = matricula;
+          
 
             if (response.IsSuccessStatusCode)
             {
@@ -42,7 +42,7 @@ namespace SGM_MVC.Services.Servidor
                 //    Descricao = "Departamento Municipal de Transporte",
                 //    Id = 1
                 //};
-
+                funcionario.Id = model.Id;
                 funcionario.Nome = model.Nome;
                 //funcionario.Cargo = "Professor";
                 //funcionario.Email = "rodrigo@bomsucesso.gov.br";
@@ -50,9 +50,7 @@ namespace SGM_MVC.Services.Servidor
                 //funcionario.DataNascimento = DateTime.Parse("1985/01/22");
                 funcionario.Cargo = model.Cargo;
                 funcionario.Email = model.Email;
-                funcionario.DataDeAdmissao = model.DataDeAdmissao;
                 funcionario.DataNascimento = model.DataNascimento;
-                funcionario.Departamento = model.Departamento;
 
             }
             return funcionario;
