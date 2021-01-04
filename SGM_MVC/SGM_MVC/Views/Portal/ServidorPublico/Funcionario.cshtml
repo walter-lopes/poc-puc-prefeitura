@@ -23,7 +23,7 @@
                     <input type="text" id="IdFuncionario" placeholder="Matrícula" name="IdFuncionario" required />
                     <button class="btn btn-primary">Pesquisar</button>
 
-                    @if (null == Model.Nome && null != Model.Id)
+                    @if ((null == Model.Nome && null != Model.Id) || (null == Model.Nome && null == Model.Id))
                     {
                         <p>
                             <strong style="color:red">Matrícula @Model.Id não encontrada.</strong>

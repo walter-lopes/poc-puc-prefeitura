@@ -23,6 +23,7 @@ namespace Poc.Puc.SGM.SupportCitizens.Controllers
             var rnd = new Random(DateTime.Now.Millisecond);
             int ticks = rnd.Next(0, 3000);
             project.Codigo = ticks.ToString();
+            project.ChangeStatus(project.RequesterName, "Criado");
             await repository.InsertAsync(project);
 
             return Ok(project.Codigo);

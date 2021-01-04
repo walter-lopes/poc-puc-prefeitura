@@ -19,15 +19,11 @@
                 <form method="post" asp-action="Autenticar" class="was-validated">
                     <div class="form-group">
                         <label for="uname">Usuário:</label>
-                        <input type="text" class="form-control" id="idLogin" placeholder="Entre com usuário" name="login" required>
-                        <div class="valid-feedback">Ok.</div>
-                        <div class="invalid-feedback">Campo obrigatório.</div>
+                        <input type="text" class="form-control" id="idLogin" placeholder="Entre com usuário" name="login" required min="6">
                     </div>
                     <div class="form-group">
                         <label for="pwd">Senha:</label>
-                        <input type="password" class="form-control" id="idPwd" placeholder="Entre com a senha" name="password" required>
-                        <div class="valid-feedback">Ok.</div>
-                        <div class="invalid-feedback">Campo obrigatório.</div>
+                        <input type="password" class="form-control" id="idPwd" placeholder="Entre com a senha" name="password" required min="6">
                     </div>
                     <div>
                         @if (null != @ViewData["MessageError"])

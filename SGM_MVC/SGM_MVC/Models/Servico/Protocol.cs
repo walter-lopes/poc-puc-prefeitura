@@ -15,6 +15,7 @@ namespace SGM_MVC.Models.Servico
         public List<Histories> History { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }
+        public string Codigo { get; set; }
 
         public Protocol() {
             this.CreateDate = DateTime.Now;

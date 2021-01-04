@@ -38,7 +38,7 @@ namespace SGM_MVC.Services.Cidadao
             var client = new HttpClient();
             var response = client.SendAsync(request).Result;
 
-            Person cidadao = new Person();
+            Person cidadao = null;
 
             if (response.IsSuccessStatusCode)
             {
@@ -48,7 +48,7 @@ namespace SGM_MVC.Services.Cidadao
                 
                 if(model != null)
                 {
-
+                    cidadao = new Person();
                     cidadao.Name = model.FirstName + " " + model.LastName;
                     cidadao.Identifier = CpfCnpj;
 
@@ -64,6 +64,7 @@ namespace SGM_MVC.Services.Cidadao
                     cidadao.Property = imovel;
                 }
             }
+
             return cidadao;
         }
     }

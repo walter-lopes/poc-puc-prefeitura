@@ -20,6 +20,12 @@
                     <label>CPF / CNPJ:</label>
                     <input type="text" id="CpfCnpj" placeholder="" name="CpfCnpj" required />
                     <button class="btn btn-primary">Pesquisar</button>
+                    @if (null != @ViewData["MessageError"])
+                    {
+                        <p>
+                            <strong style="color:red">@ViewData["MessageError"]</strong>
+                        </p>
+                    }
                 </form>
                 <br />
                 <br />

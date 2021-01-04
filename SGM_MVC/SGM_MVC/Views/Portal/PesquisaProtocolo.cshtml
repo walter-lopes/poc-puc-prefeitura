@@ -23,7 +23,13 @@
                     @if (null != @ViewData["MessageError"])
                     {
                         <p>
-                            <strong>Erro: @ViewData["MessageError"]</strong>
+                            <strong style="color:red">Erro: @ViewData["MessageError"]</strong>
+                        </p>
+                    }
+                    else if (null != @ViewData["ReturnMessage"])
+                    {
+                        <p>
+                            <strong>@ViewData["ReturnMessage"]</strong>
                         </p>
                     }
                 </form>

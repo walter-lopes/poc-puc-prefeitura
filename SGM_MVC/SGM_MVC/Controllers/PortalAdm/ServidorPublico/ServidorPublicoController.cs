@@ -11,6 +11,12 @@ namespace SGM_MVC.Controllers.PortalAdm.ServidorPublico
 {
     public class ServidorPublicoController : Controller
     {
+        private readonly FuncionarioServices funcionarioServices;
+
+        public ServidorPublicoController() {
+            funcionarioServices = new FuncionarioServices();
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -55,15 +61,13 @@ namespace SGM_MVC.Controllers.PortalAdm.ServidorPublico
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult InserirFuncionario(Funcionario funcionario)
-        {
-            FuncionarioServices funcionarioServices = new FuncionarioServices();
+        {            
             funcionarioServices.Create(funcionario);
             return RedirectToAction("CadastrarFuncionario", "ServidorPublico");
         }
 
         public IActionResult PesquisaFuncionario(string IdFuncionario)
         {
-            FuncionarioServices funcionarioServices = new FuncionarioServices();
             Funcionario funcionario = funcionarioServices.PesquisaFuncionario(IdFuncionario);
             return View("../Portal/ServidorPublico/Funcionario", funcionario);
         }        

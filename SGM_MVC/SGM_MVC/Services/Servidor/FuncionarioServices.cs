@@ -35,22 +35,25 @@ namespace SGM_MVC.Services.Servidor
 
             if (response.IsSuccessStatusCode)
             {
-                //Departamento departamento = new Departamento
-                //{
-                //    Nome = "Transportes",
-                //    DataDeCadastro = DateTime.Now,
-                //    Descricao = "Departamento Municipal de Transporte",
-                //    Id = 1
-                //};
-                funcionario.Id = model.Id;
-                funcionario.Nome = model.Nome;
-                //funcionario.Cargo = "Professor";
-                //funcionario.Email = "rodrigo@bomsucesso.gov.br";
-                //funcionario.DataDeAdmissao = DateTime.Parse("2010/10/11");
-                //funcionario.DataNascimento = DateTime.Parse("1985/01/22");
-                funcionario.Cargo = model.Cargo;
-                funcionario.Email = model.Email;
-                funcionario.DataNascimento = model.DataNascimento;
+                if (model != null)
+                {
+                    //Departamento departamento = new Departamento
+                    //{
+                    //    Nome = "Transportes",
+                    //    DataDeCadastro = DateTime.Now,
+                    //    Descricao = "Departamento Municipal de Transporte",
+                    //    Id = 1
+                    //};
+                    funcionario.Id = model.Id;
+                    funcionario.Nome = model.Nome;
+                    //funcionario.Cargo = "Professor";
+                    //funcionario.Email = "rodrigo@bomsucesso.gov.br";
+                    //funcionario.DataDeAdmissao = DateTime.Parse("2010/10/11");
+                    //funcionario.DataNascimento = DateTime.Parse("1985/01/22");
+                    funcionario.Cargo = model.Cargo;
+                    funcionario.Email = model.Email;
+                    funcionario.DataNascimento = model.DataNascimento;
+                }         
 
             }
             return funcionario;

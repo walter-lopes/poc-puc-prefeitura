@@ -1,5 +1,3 @@
-
-
 namespace Poc.Puc.SGM.GeneralIntegration.Models
 {
     public class User

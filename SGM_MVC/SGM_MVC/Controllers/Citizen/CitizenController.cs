@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SGM_MVC.Models.Cidadao;
 using SGM_MVC.Models.Servico;
 using SGM_MVC.Services.Cidadao;
 using SGM_MVC.Services.Servico;
@@ -20,7 +21,10 @@ namespace SGM_MVC.Controllers.Cidadao
         public IActionResult PesquisaIptuItr(string CpfCnpj)
         {
             CitizenServices cidadao = new CitizenServices();
-            return View(cidadao.RetornaDadosCidadao(CpfCnpj));
+            Person person = cidadao.RetornaDadosCidadao(CpfCnpj);
+            _ = person == null ? ViewData["MessageError"] = $"CPF / CNPJ {CpfCnpj} não encontrado" : ViewData["MessageError"] = null;
+            return person == null ? View("IptuItr") : View(person);
+            //return View(cidadao.RetornaDadosCidadao(CpfCnpj));
         }
 
         public IActionResult Servico()
