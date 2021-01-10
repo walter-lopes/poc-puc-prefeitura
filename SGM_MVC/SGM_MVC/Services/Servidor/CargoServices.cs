@@ -8,32 +8,43 @@ namespace SGM_MVC.Services.Servidor
 {
     public class CargoServices
     {
-        public List<Cargo> RetornaCargos()
+        public List<Cargo> GetCargosItems()
         {
-            Cargo cargo = new Cargo();
-            Cargo cargo1 = new Cargo();
-            Cargo cargo2 = new Cargo();
-            Cargo cargo3 = new Cargo();
-
             List<Cargo> cargos = new List<Cargo>();
 
-            cargo.Nome = "Assistênte Financeiro";
-            cargo.Id = 1;
-            cargos.Add(cargo);
+            List<string> nomeCargos = GetNomeCargos();
 
-            cargo1.Nome = "Secretário";
-            cargo1.Id = 2;
-            cargos.Add(cargo1);
-
-            cargo2.Nome = "Contador";
-            cargo2.Id = 3;
-            cargos.Add(cargo2);
-
-            cargo3.Nome = "Professor";
-            cargo3.Id = 4;
-            cargos.Add(cargo3);
-
+            int i = 1;
+            foreach (var item in nomeCargos)
+            {
+                cargos.Add(new Cargo(++i, item));
+            }
+     
             return cargos;
+        }
+
+        private List<string> GetNomeCargos()
+        {
+            List<string> nomeCargos = new List<string>
+            {
+                "Recursos Humanos",
+                "Auxiliar Administrativo",
+                "Auxiliar Administrativo Escolar",
+                "Engenheiro Civil",
+                "Engenheiro Agrônomo",
+                "Fiscal",
+                "Técnico em Contabilidade",
+                "Tesoureiro",
+                "Diretor de Departamento",
+                "Subprefeito",
+                "Prefeito",
+                "Secretário Municipal",
+                "Vereador",
+                "Professor"
+            };
+            nomeCargos.Sort();
+
+            return nomeCargos;
         }
     }
 }

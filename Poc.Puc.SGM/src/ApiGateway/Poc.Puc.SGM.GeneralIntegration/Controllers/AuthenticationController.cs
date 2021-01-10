@@ -36,12 +36,49 @@ namespace Poc.Puc.SGM.GeneralIntegration.Controllers
             try
             {
                 HttpResponseMessage responseMessage = await client.PostAsync($"https://localhost:44359/v1/account/login", contentString);
+                string responseString = await responseMessage.Content.ReadAsStringAsync();
+                if (responseMessage.IsSuccessStatusCode)
+                {
+                    return Ok(JsonConvert.DeserializeObject<User>(responseString));
+                }
+                else
+                {
+                    return BadRequest(JObject.Parse(responseString)["message"].ToString());
+                }
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+           
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult<dynamic>> Post([FromBody] User model)
+        {
+            var jsonContent = JsonConvert.SerializeObject(model);
+
+            JObject jObject = JObject.Parse(jsonContent);
+
+            jObject.Property("Id").Remove();
+            jObject.Property("Token").Remove();
+            jsonContent = jObject.ToString();
+
+            var contentString = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            contentString.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            HttpClient client = _clientFactory.CreateClient();
+            try
+            {
+                HttpResponseMessage responseMessage = await client.PostAsync($"https://localhost:44359/v1/account", contentString);
 
                 if (responseMessage.IsSuccessStatusCode)
                 {
                     string responseString = await responseMessage.Content.ReadAsStringAsync();
-               
-                    return Ok(JsonConvert.DeserializeObject<User>(responseString));
+
+                    return Ok(responseString);
                 }
                 else
                 {
@@ -53,7 +90,7 @@ namespace Poc.Puc.SGM.GeneralIntegration.Controllers
 
                 return BadRequest(e.Message);
             }
-           
+
         }
 
 

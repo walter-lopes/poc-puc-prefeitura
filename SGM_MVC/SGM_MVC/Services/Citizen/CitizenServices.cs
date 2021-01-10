@@ -31,7 +31,7 @@ namespace SGM_MVC.Services.Cidadao
         public Person RetornaDadosCidadao(string CpfCnpj)
         {
 
-            var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:44383/citizen/support/{CpfCnpj}");
+            var request = new HttpRequestMessage(HttpMethod.Get, Settings.HostApiGateWay + $"citizen/support/{CpfCnpj}");
 
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("User-Agent", "HttpClientFactory-Sample");
@@ -48,9 +48,11 @@ namespace SGM_MVC.Services.Cidadao
                 
                 if(model != null)
                 {
-                    cidadao = new Person();
-                    cidadao.Name = model.FirstName + " " + model.LastName;
-                    cidadao.Identifier = CpfCnpj;
+                    cidadao = new Person
+                    {
+                        Name = model.FirstName + " " + model.LastName,
+                        Identifier = CpfCnpj
+                    };
 
                     Property imovel = new Property
                     {

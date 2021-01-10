@@ -2,10 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SGM_MVC.Models.Servidor;
 using SGM_MVC.Services.Servidor;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SGM_MVC.Controllers.PortalAdm.ServidorPublico
 {
@@ -16,16 +13,17 @@ namespace SGM_MVC.Controllers.PortalAdm.ServidorPublico
         public ServidorPublicoController() {
             funcionarioServices = new FuncionarioServices();
         }
-
+        [ValidateAntiForgeryToken]
         public IActionResult Index()
         {
             return View();
         }
-
+       
         public IActionResult Funcionario()
         {
-            return View("../Portal/ServidorPublico/Funcionario", new Funcionario());
+            return View("../Portal/ServidorPublico/Funcionario");
         }
+        
         public IActionResult CadastrarFuncionario()
         {
             DepartamentoServices DepartamentoServices = new DepartamentoServices();
@@ -33,7 +31,7 @@ namespace SGM_MVC.Controllers.PortalAdm.ServidorPublico
 
             List<SelectListItem> SelectListItemDepartamentos = new List<SelectListItem>
             {
-                new SelectListItem() { Text = "Selecione", Value = "-1" }
+                new SelectListItem() { Text = "Selecione", Value = "" }
             };
             foreach (Departamento departamento in departamentos)
             {
@@ -41,11 +39,11 @@ namespace SGM_MVC.Controllers.PortalAdm.ServidorPublico
             }
 
             CargoServices CargoServices = new CargoServices();
-            List<Cargo> Cargos = CargoServices.RetornaCargos();
+            List<Cargo> Cargos = CargoServices.GetCargosItems();
 
             List<SelectListItem> SelectListItemCargos = new List<SelectListItem>
             {
-                new SelectListItem() { Text = "Selecione", Value = "-1" }
+                new SelectListItem() { Text = "Selecione", Value = "" }
             };
 
             foreach (Cargo cargo in Cargos)
@@ -61,17 +59,22 @@ namespace SGM_MVC.Controllers.PortalAdm.ServidorPublico
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult InserirFuncionario(Funcionario funcionario)
-        {            
-            funcionarioServices.Create(funcionario);
+        {
+            ViewData["Message"] = funcionarioServices.Create(funcionario);
             return RedirectToAction("CadastrarFuncionario", "ServidorPublico");
         }
 
-        public IActionResult PesquisaFuncionario(string IdFuncionario)
+        [ValidateAntiForgeryToken]
+        public IActionResult PesquisaFuncionario(string IdEmail)
         {
-            Funcionario funcionario = funcionarioServices.PesquisaFuncionario(IdFuncionario);
-            return View("../Portal/ServidorPublico/Funcionario", funcionario);
-        }        
+            Funcionario funcionario = funcionarioServices.PesquisaFuncionario(IdEmail);
 
+            _ = funcionario == null ? ViewData["MessageError"] = $"Funcionário {IdEmail} não encontrado" : ViewData["MessageError"] = null;
+
+            return View("../Portal/ServidorPublico/Funcionario", funcionario);
+        }
+
+        [ValidateAntiForgeryToken]
         public IActionResult Departamento()
         {
             DepartamentoServices ds = new DepartamentoServices();
@@ -80,6 +83,7 @@ namespace SGM_MVC.Controllers.PortalAdm.ServidorPublico
             ViewBag.ReturnMessage = returnMessage;
             return View("../Portal/ServidorPublico/Departamento", new Departamento());
         }
+        [ValidateAntiForgeryToken]
         public IActionResult CadastrarDepartamento()
         {
             return View("../Portal/ServidorPublico/CadastrarDepartamento");

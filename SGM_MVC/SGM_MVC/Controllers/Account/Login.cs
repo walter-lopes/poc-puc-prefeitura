@@ -92,9 +92,8 @@ namespace SGM_MVC.Controllers.Authentication
                     return RedirectToAction("Index", "Home");
                 }
                 else
-                {                    
-                    string message = JObject.Parse(customerJsonString)["message"].ToString();
-                    ViewData["MessageError"] = message;
+                {   
+                    ViewData["MessageError"] = customerJsonString;
                     return View("Index", UserLog);
                 }
             }

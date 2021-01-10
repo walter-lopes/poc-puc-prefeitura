@@ -9,5 +9,13 @@ namespace SGM_MVC.Models.Servidor
     {
         public int Id { get; set; }
         public string Nome { get; set; }
+
+        public Cargo() { }
+
+        public Cargo(int id, string nome)
+        {
+            Id = id;
+            Nome = nome;
+        }
     }
 }

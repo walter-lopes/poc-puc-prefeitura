@@ -13,22 +13,6 @@
             <h4>Informações do Protocolo</h4>
             <hr />
             <dl class="row">
-
-                @if (User.IsInRole("vereador"))
-                {
-                    <dt class="col-sm-2">
-
-                        <input type="submit" value="Atualizar Situação" class="btn btn-primary" />
-                        @*<a asp-action="submit">Atualizar Situação</a>*@
-
-                    </dt>
-                    <dd class="col-sm-10">
-
-                    </dd>
-
-                    //<a asp-action="AtualizaProtocolo" class="btn btn-primary">Atualizar Situação</a>
-                }
-
                 <dt class="col-sm-2">
                     Protocolo
                 </dt>
@@ -87,33 +71,51 @@
                     <th>
                         Responsável
                     </th>
-                    <th>Email do Responsável</th>
+                    @*<th>Email do Responsável</th>*@
                 </tr>
             </thead>
             @if (Model.History != null)
             {
-            <tbody>
-                @foreach (var item in Model.History)
-                {
-                    <tr>
-                        <td>
-                            @Html.TextBoxFor(modelItem => item.Status, new { @readonly = "readonly", @Name = "", @style = "border: none;" })
-                        </td>
-                        <td>
-                            @Html.TextBoxFor(modelItem => item.UpdateDate, new { @readonly = "readonly", @Name = "", @style = "border: none;" })
-                        </td>
-                        <td>
-                            @Html.TextBoxFor(modelItem => item.Employee, new { @readonly = "readonly", @Name = "", @style = "border: none;" })
-                        </td>
-                        <td>
-                            @Html.TextBoxFor(modelItem => item.EmployeeMail, new { @readonly = "readonly", @Name = "", @style = "border: none;" })
-                        </td>
-                    </tr>
-                }
-            </tbody>
+                <tbody>
+                    @foreach (var item in Model.History)
+                    {
+                        <tr>
+                            <td>
+                                @Html.TextBoxFor(modelItem => item.Status, new { @readonly = "readonly", @Name = "", @style = "border: none;" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => item.UpdateDate, new { @readonly = "readonly", @Name = "", @style = "border: none;" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => item.Employee, new { @readonly = "readonly", @Name = "", @style = "border: none;" })
+                            </td>
+                            @*<td>
+                                @Html.TextBoxFor(modelItem => item.EmployeeMail, new { @readonly = "readonly", @Name = "", @style = "border: none;" })
+                            </td>*@
+                        </tr>
+                    }
+                </tbody>
             }
-            
+
         </table>
+        @if (User.IsInRole(ViewBag.Role))
+        {
+            <div class="row">
+                <div class="cols-sm-2">
+                    <input type="submit" value="Atualizar Situação" class="btn btn-primary" />
+                </div>
+                <div class="col-sm-8 ">
+                    @*<label asp-for="Status" class="control-label"></label>*@
+                    @Html.DropDownListFor(m => m.Status, (SelectList)ViewBag.SelectListStatus, htmlAttributes: new { @required = "true", @class = "form-control col-sm-8" })
+                    @*@Html.DropDownList("Status", ViewBag.SelectListStatus as IEnumerable<SelectListItem>, htmlAttributes: new { @required = "true", @class = "form-control col-sm-8" })*@
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                    @*@Html.DropDownList("Status", ViewBag.SelectListStatus as IEnumerable<SelectListItem>, htmlAttributes: new { @required = "true", @class = "col-sm-6" })*@
+                    @*@Html.ValidationMessage(ViewBag.SelectListStatus as IEnumerable<SelectListItem>, "Selecionar", new { @class = "text-danger" })*@
+                </div>
+            </div>
+            <hr />
+        }
+
     }
 </div>
 <div>

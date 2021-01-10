@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Poc.Puc.SGM.SupportCitizens.Controllers
 {
 
-    [Route("employees")]
+    [Route("employee")]
     [ApiController]
     public class EmplooyesController : ControllerBase
     {

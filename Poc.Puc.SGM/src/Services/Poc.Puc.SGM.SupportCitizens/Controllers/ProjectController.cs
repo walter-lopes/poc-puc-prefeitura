@@ -23,7 +23,6 @@ namespace Poc.Puc.SGM.SupportCitizens.Controllers
             var rnd = new Random(DateTime.Now.Millisecond);
             int ticks = rnd.Next(0, 3000);
             project.Codigo = ticks.ToString();
-            project.ChangeStatus(project.RequesterName, "Criado");
             await repository.InsertAsync(project);
 
             return Ok(project.Codigo);
@@ -34,6 +33,7 @@ namespace Poc.Puc.SGM.SupportCitizens.Controllers
         {
             var project = await repository.GetByIdAsync(x => x.Id == id);
 
+            project.UpdateDate = DateTime.Now;
             project.ChangeStatus(request.EmployeeEmail, request.Status);
 
             await repository.UpdateAsync(project, x=> x.Id == id);

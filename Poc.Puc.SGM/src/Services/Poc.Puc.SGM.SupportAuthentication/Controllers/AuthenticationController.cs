@@ -86,19 +86,19 @@ namespace WebAppAuthenticationSGM.Controllers
             }            
         }
         
-        [HttpGet]
-        [Route("anonymous")]
-        [AllowAnonymous]
-        public string Anonymous() => "Anônimo";
+        //[HttpGet]
+        //[Route("anonymous")]
+        //[AllowAnonymous]
+        //public string Anonymous() => "Anônimo";
 
-        [HttpGet]
-        [Route("authenticated")]
-        [Authorize]
-        public string Authenticated() => String.Format("Autenticado - {0}", User.Identity.Name);
+        //[HttpGet]
+        //[Route("authenticated")]
+        //[Authorize]
+        //public string Authenticated() => String.Format("Autenticado - {0}", User.Identity.Name);
 
-        [HttpGet]
-        [Route("funcionario")]
-        [Authorize(Roles = "prefeito,vereador")]
-        public string Funcionario() => "Funcionario";
+        //[HttpGet]
+        //[Route("funcionario")]
+        //[Authorize(Roles = "prefeito,vereador")]
+        //public string Funcionario() => "Funcionario";
     }
 }

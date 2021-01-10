@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SGM_MVC.Models.Cidadao;
 using SGM_MVC.Models.Servico;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Http;
+using SGM_MVC.Services.ServicesUtils;
+using SGM_MVC.SiteUtils;
+using Newtonsoft.Json.Linq;
 
 namespace SGM_MVC.Services.Servico
 {
@@ -31,61 +30,85 @@ namespace SGM_MVC.Services.Servico
         [HttpGet]
         public Protocol Protocolo(string IdServico)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:44363/project/{IdServico}");
+            var request = new HttpRequestMessage(HttpMethod.Get, Settings.HostApiGateWay + $"project/{IdServico}");
 
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("User-Agent", "HttpClientFactory-Sample");
             var client = new HttpClient();
             var response = client.SendAsync(request).Result;
             _ = new Person();
+
             Protocol protocolo = null;
 
             if (response.IsSuccessStatusCode)
             {
                 string responseString = response.Content.ReadAsStringAsync().Result;
 
-                var model = JsonConvert.DeserializeObject<ServicoServices>(responseString);
+                ServicoServices model = JsonConvert.DeserializeObject<ServicoServices>(responseString);
 
                 if (model != null)
                 {
-
-                    protocolo = new Protocol();
-                    Person pessoa = new Person();
-                    Contact contato = new Contact();
-                    List<Histories> statuses = new List<Histories>();
-
-                    contato.Email = model.RequesterEmail;
-                    contato.Phone = model.RequesterPhone;
-                    pessoa.Name = model.RequesterName;
-                    pessoa.Contact = contato;
-
-
-                    if (model.Histories != null)
-                    {
-                        foreach (var item in model.Histories)
-                        {
-                            Histories status = new Histories
-                            {
-                                UpdateDate = item.UpdateDate,
-                                Employee = item.Employee,
-                                EmployeeMail = item.EmployeeMail,
-                                Status = item.Status
-                            };
-
-                            statuses.Add(status);
-                        }
-                    }
-
-                    protocolo.CreateDate = DateTime.Parse(model.Date);
-                    protocolo.UpdateDate = DateTime.Parse(model.UpdateDate);
-                    protocolo.Name = model.Name;
-                    protocolo.Person = pessoa;
-                    protocolo.History = statuses;
-                    protocolo.Codigo = model.Codigo;
-                    protocolo.Id = model.Id;
-
+                    Contact contato = GetContact(model);
+                    Person pessoa = GetPerson(model, contato);
+                    List<Histories> statuses = GetHistories(model);
+                    protocolo = GetProtocolo(model, pessoa, statuses);
                 }
             }
+            return protocolo;
+        }
+
+        private static Person GetPerson(ServicoServices model, Contact contato)
+        {
+            return new Person
+            {
+                Name = model.RequesterName,
+                Contact = contato
+            };
+        }
+
+        private static Contact GetContact(ServicoServices model)
+        {
+            return new Contact
+            {
+                Email = model.RequesterEmail,
+                Phone = model.RequesterPhone
+            };
+        }
+
+        private static List<Histories> GetHistories(ServicoServices model)
+        {
+            List<Histories> statuses = new List<Histories>();
+            if (model.Histories != null)
+            {
+                foreach (var item in model.Histories)
+                {
+                    Histories status = new Histories
+                    {
+                        UpdateDate = Formatacao.StringDateFormat(item.UpdateDate, "g"),
+                        Employee = item.Employee,
+                        EmployeeMail = item.EmployeeMail,
+                        Status = item.Status
+                    };
+
+                    statuses.Add(status);
+                }
+            }
+
+            return statuses;
+        }
+
+        private static Protocol GetProtocolo(ServicoServices model, Person pessoa, List<Histories> statuses)
+        {
+            Protocol protocolo = new Protocol
+            {
+                CreateDate = Formatacao.StringDateToDate(model.Date),
+                UpdateDate = Formatacao.StringDateToDate(model.UpdateDate),
+                Name = model.Name,
+                Person = pessoa,
+                History = statuses,
+                Codigo = model.Codigo,
+                Id = model.Id
+            };
             return protocolo;
         }
 
@@ -93,37 +116,41 @@ namespace SGM_MVC.Services.Servico
         public string Create(Protocol protocol)
         {
             List<Histories> tempHist = new List<Histories>();
-            Histories histories = new Histories();
-            histories.UpdateDate = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
-            histories.Employee = protocol.Person.Name;
-            //histories.EmployeeMail = protocol.Person.Contact.Email;
-            histories.Status = "Criado";
+            Histories histories = new Histories
+            {
+                UpdateDate = DateTime.Now.ToString("g"),
+                Employee = protocol.Person.Name,
+                //histories.EmployeeMail = protocol.Person.Contact.Email;
+                Status = "Criado"
+            };
             tempHist.Add(histories);
 
             ServicoServices services = new ServicoServices
             {
-
                 Name = protocol.Name,
                 //Id = "3da85f34-5717-4562-b3fc-2c963f66afa6",
                 Histories = tempHist,
-                Date = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss"),
-                UpdateDate = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss"),
+                Date = DateTime.Now.ToString("g"),
+                UpdateDate = DateTime.Now.ToString("g"),
                 RequesterName = protocol.Person.Name,
                 RequesterEmail = protocol.Person.Contact.Email,
                 RequesterPhone = protocol.Person.Contact.Phone,
                 Status = "Criado"
             };
-            //services.Identifier = protocol.Person.Identifier;
+
+            var client = new HttpClient();
 
 
+            var json = JsonConvert.SerializeObject(services);
+            JObject jObject = JObject.Parse(json);
+            jObject.Property("Id").Remove();
+            json = jObject.ToString();
             var projectJson = new StringContent(
-                                JsonConvert.SerializeObject(services),
+                                json,
                                 Encoding.UTF8,
                                 "application/json");
 
-            var client = new HttpClient();
-            var response = client.PostAsync($"https://localhost:44383/project",
-                                                  projectJson).Result;
+            var response = client.PostAsync(Settings.HostApiGateWay + $"project", projectJson).Result;
 
             if (response.IsSuccessStatusCode)
             {
@@ -138,24 +165,18 @@ namespace SGM_MVC.Services.Servico
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(Protocol protocol, string userLogged)
+        public IActionResult Put(string id, string status, string userLogged)
         {
- 
+
             var client = new HttpClient();
 
-            ChangeStatus status = new ChangeStatus()
+            ChangeStatus statusChange = new ChangeStatus()
             {
                 EmployeeEmail = userLogged,
-                Status = "Concluído"
+                Status = status
             };
 
-            var json = new StringContent(
-                    JsonConvert.SerializeObject(status),
-                    Encoding.UTF8,
-                    "application/json");
-            var id = protocol.Id;
-
-            var response = await client.PutAsync($"https://localhost:44363/project/{id}", json);
+            var response = client.PutAsync(Settings.HostApiGateWay + $"project/{id}", Utils.getJsonStringContent(statusChange)).Result;
 
             if (response.IsSuccessStatusCode)
             {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Poc.Puc.SGM.GeneralIntegration.Models;
 using System;
 using System.Collections.Generic;
@@ -25,8 +26,13 @@ namespace Poc.Puc.SGM.GeneralIntegration.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateProjectModel project)
         {
+            var json = JsonConvert.SerializeObject(project);
+            JObject jObject = JObject.Parse(json);
+            jObject.Property("Id").Remove();
+            json = jObject.ToString();
+
             var projectJson = new StringContent(
-                                JsonConvert.SerializeObject(project),
+                                json,
                                 Encoding.UTF8,
                                 "application/json");
 
@@ -91,7 +97,9 @@ namespace Poc.Puc.SGM.GeneralIntegration.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                return Ok(response.Content);
+                string responseString = await response.Content.ReadAsStringAsync();
+
+                return Ok(JsonConvert.DeserializeObject<CreateProjectModel>(responseString));
             }
             else
             {

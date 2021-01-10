@@ -1,10 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -38,7 +34,7 @@ namespace SGM_MVC
 
             services.AddControllersWithViews();
 
-            services.AddDbContext<MovieContext>(options =>
+            services.AddDbContext<DBContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("MovieContext")));
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -65,7 +61,8 @@ namespace SGM_MVC
                 app.UseHsts();
             }
 
-            app.UseStatusCodePagesWithRedirects("/MyStatusCode?code={0}");
+            //app.UseStatusCodePagesWithRedirects("/MyStatusCode?code={0}");
+            //app.UseStatusCodePagesWithReExecute("/Home/HandleError/{0}");
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -82,7 +79,7 @@ namespace SGM_MVC
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
+            endpoints.MapRazorPages();
             });
         }
     }

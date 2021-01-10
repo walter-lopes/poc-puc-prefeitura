@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SGM_MVC.Models.Authentication;
 using SGM_MVC.Models.Cidadao;
 using SGM_MVC.Models.Servidor;
 using System;
@@ -17,7 +18,7 @@ namespace SGM_MVC.Services.Servidor
 
         public Funcionario PesquisaFuncionario(string email){
 
-            var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:44363/employees/{email}");
+            var request = new HttpRequestMessage(HttpMethod.Get, Settings.HostApiGateWay + $"employee/{email}");
 
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("User-Agent", "HttpClientFactory-Sample");
@@ -29,30 +30,20 @@ namespace SGM_MVC.Services.Servidor
 
             var model = JsonConvert.DeserializeObject<Funcionario>(responseString);
 
-
-            Funcionario funcionario = new Funcionario();
-          
+            Funcionario funcionario = null;          
 
             if (response.IsSuccessStatusCode)
             {
                 if (model != null)
                 {
-                    //Departamento departamento = new Departamento
-                    //{
-                    //    Nome = "Transportes",
-                    //    DataDeCadastro = DateTime.Now,
-                    //    Descricao = "Departamento Municipal de Transporte",
-                    //    Id = 1
-                    //};
-                    funcionario.Id = model.Id;
-                    funcionario.Nome = model.Nome;
-                    //funcionario.Cargo = "Professor";
-                    //funcionario.Email = "rodrigo@bomsucesso.gov.br";
-                    //funcionario.DataDeAdmissao = DateTime.Parse("2010/10/11");
-                    //funcionario.DataNascimento = DateTime.Parse("1985/01/22");
-                    funcionario.Cargo = model.Cargo;
-                    funcionario.Email = model.Email;
-                    funcionario.DataNascimento = model.DataNascimento;
+                    funcionario = new Funcionario
+                    {
+                        Id = model.Id,
+                        Nome = model.Nome,
+                        Cargo = model.Cargo,
+                        Email = model.Email,
+                        DataNascimento = model.DataNascimento
+                    };
                 }         
 
             }
@@ -62,17 +53,7 @@ namespace SGM_MVC.Services.Servidor
         [HttpPost]
         public string Create(Funcionario func)
         {
-            //_ = new Funcionario
-            //{
-            //    Id = func.Id,
-            //    Nome = func.Nome,
-            //    Cargo = func.Cargo,
-            //    DataDeAdmissao = func.DataDeAdmissao,
-            //    DataNascimento = func.DataNascimento,
-            //    Departamento = func.Departamento,
-            //    Email = func.Email
-            //};
-
+            
             var json = JsonConvert.SerializeObject(func);
             JObject jObject = JObject.Parse(json);
 
@@ -85,12 +66,21 @@ namespace SGM_MVC.Services.Servidor
                                 "application/json");
 
             var client = new HttpClient();
-            var response = client.PostAsync($"https://localhost:44363/employees",
+            HttpResponseMessage response = client.PostAsync(Settings.HostApiGateWay + $"employee",
                                                   projectJson).Result;
 
             if (response.IsSuccessStatusCode)
             {
-                return "Funcionário Cadastrado";
+                AutenticationServices aut = new AutenticationServices();
+                response = aut.GenerateUserPass(func);
+                if (response.IsSuccessStatusCode)
+                {
+                    return "Funcionário Cadastrado";
+                }
+                else
+                {
+                    return $"Erro ao cadastrar funcionário. {response.ReasonPhrase}";
+                }
             }
             else
             {
